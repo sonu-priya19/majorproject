@@ -1,0 +1,53 @@
+# # Core
+# Django==5.0.3
+# python-dotenv==1.0.1
+# whitenoise==6.7.0
+# psycopg2-binary==2.9.9
+# # ...rest of your packages  # For static file serving in production
+
+# # Database (MongoDB)
+# djongo==1.3.6
+# pymongo==4.9.1
+
+
+# # URL scanning and network requests
+# requests==2.32.3
+# beautifulsoup4==4.12.3
+# tldextract==5.1.1   # Extracting domain names
+# python-whois==0.8.0 # Domain WHOIS lookups
+# dnspython==2.6.1    # DNS lookups
+
+# # Machine learning / phishing detection (optional, future-proof)
+# scikit-learn==1.5.2
+# joblib==1.4.2
+# pandas==2.2.3
+# numpy==2.1.2
+
+# # Optional security checks
+# pyOpenSSL==24.2.1   # SSL certificate checks
+# Core
+Django==5.0.3
+python-dotenv==1.0.1
+whitenoise==6.7.0
+psycopg2-binary==2.9.9
+
+requests==2.32.3
+beautifulsoup4==4.12.3
+tldextract==5.1.1
+python-whois==0.8.0
+dnspython==2.6.1
+
+scikit-learn==1.5.2
+joblib==1.4.2
+pandas==2.2.3
+numpy==2.1.2
+pyOpenSSL==24.2.1
+
+Django>=4.2,<5.1
+psycopg2-binary>=2.9
+joblib>=1.2.0
+scikit-learn>=1.2.2
+pandas>=1.5.3
+numpy>=1.24.0
+whitenoise>=6.5.0
+
