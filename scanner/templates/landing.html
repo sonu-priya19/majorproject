@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Welcome to PhishTitan{% endblock %}
+{% block content %}
+<style>
+/* ===== Internal CSS for Landing Page ===== */
+:root {
+    --accent-color: #4CAF50;
+    --accent-hover: #45a049;
+    --danger: #e63946;
+    --card-bg: rgba(255,255,255,0.1);
+    --text-muted: #666;
+}
+
+.landing-container {
+    text-align: center;
+    padding: 60px;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.main-logo {
+    width: 150px;
+    filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.3));
+    animation: bounce 2s infinite;
+}
+
+.glow-text {
+    font-size: 2.5rem;
+    margin-top: 20px;
+    text-shadow: 0 0 10px var(--accent-color);
+}
+
+.highlight {
+    color: var(--accent-color);
+    font-weight: bold;
+}
+
+.subtitle {
+    margin: 10px 0 30px;
+    font-size: 1.2rem;
+    color: var(--text-muted);
+}
+
+.auth-warning {
+    margin-top: 20px;
+    color: var(--danger);
+    font-weight: bold;
+}
+
+.scan-box {
+    margin-top: 30px;
+    display: inline-block;
+    padding: 20px;
+    border-radius: 15px;
+    background: var(--card-bg);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transform: perspective(800px) rotateX(2deg);
+    transition: transform 0.3s;
+}
+.scan-box:hover {
+    transform: perspective(800px) rotateX(0deg) scale(1.02);
+}
+
+.scan-box input {
+    padding: 10px;
+    width: 60%;
+    border: 2px solid var(--accent-color);
+    border-radius: 8px;
+    outline: none;
+    margin-right: 10px;
+}
+
+.scan-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background: var(--accent-color);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+.scan-btn:hover {
+    background: var(--accent-hover);
+    transform: scale(1.05);
+}
+
+.scan-result {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 10px;
+    font-weight: bold;
+    animation: fadeInUp 0.5s ease-in-out;
+}
+.scan-result.safe {
+    background: rgba(0, 200, 100, 0.2);
+    border: 2px solid green;
+    color: green;
+}
+.scan-result.phishing {
+    background: rgba(200, 0, 0, 0.2);
+    border: 2px solid red;
+    color: red;
+}
+
+/* Animations */
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
+
+<div class="landing-container">
+    <div class="logo-bounce">
+        <img src="{% static 'images/logo.png' %}" alt="PhishTitan Logo" class="main-logo">
+    </div>
+    <h1 class="glow-text">Welcome to <span class="highlight">PhishTitan</span></h1>
+    <p class="subtitle">Analyze suspicious URLs to detect malware and phishing threats.</p>
+
+    {% if not user.is_authenticated %}
+        <p class="auth-warning">
+            Please <a href="{% url 'login' %}" class="btn-link">Login</a> or 
+            <a href="{% url 'signup' %}" class="btn-link">Signup</a> to get started.
+        </p>
+    {% else %}
+        <p>
+            Go to your <a href="{% url 'dashboard' %}" class="btn-link">Dashboard</a>
+        </p>
+    {% endif %}
+
+    <div class="scan-box">
+        <form method="POST" action="{% url 'api_scan' %}">
+            {% csrf_token %}
+            <input type="text" name="url" placeholder="🔗 Enter a URL to scan" required>
+            <button type="submit" class="scan-btn">🚀 Scan</button>
+        </form>
+        {% if result %}
+            <div class="scan-result {{ result|lower }}">
+                <h3>Scan Result: {{ result }}</h3>
+                <p>URL: {{ url }}</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

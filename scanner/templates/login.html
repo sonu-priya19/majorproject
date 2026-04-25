@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% block title %}Login{% endblock %}
+{% block content %}
+
+<style>
+/* Center wrapper */
+.login-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  padding: 20px;
+  background: linear-gradient(135deg, #1f1c2c, #928DAB);
+}
+
+/* Glass Card */
+.login-container {
+  width: 500px;
+  padding: 45px 35px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+  text-align: center;
+  color: #fff;
+  animation: fadeIn 0.8s ease;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.login-container h2 {
+  margin-bottom: 25px;
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #ff6b81;
+  text-shadow: 0 0 10px rgba(255, 107, 129, 0.8);
+}
+
+/* Form */
+.login-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.login-container input {
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+}
+
+.login-container input::placeholder {
+  color: #ddd;
+}
+
+.login-container input:focus {
+  background: rgba(255,255,255,0.2);
+  box-shadow: 0 0 15px #ff6b81, 0 0 25px #ff6b81;
+  transform: scale(1.03);
+}
+
+/* 3D Button */
+.login-container button {
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  color: #fff;
+  background: linear-gradient(45deg, #ff6b81, #ff4757, #ff6b81);
+  background-size: 300% 300%;
+  box-shadow: 0 8px 25px rgba(255, 71, 87, 0.5);
+  animation: gradientShift 3s infinite alternate;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+@keyframes gradientShift {
+  0% { background-position: left; }
+  100% { background-position: right; }
+}
+
+.login-container button:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 12px 35px rgba(255,71,87,0.8);
+}
+
+/* Error message */
+.error-message {
+  color: #ff4d4d;
+  margin-bottom: 10px;
+  font-weight: bold;
+  animation: shake 0.3s ease;
+}
+
+@keyframes shake {
+  0% { transform: translateX(-3px); }
+  50% { transform: translateX(3px); }
+  100% { transform: translateX(0); }
+}
+
+/* Signup link */
+.login-container p {
+  margin-top: 20px;
+  font-size: 1rem;
+  color: #f1f1f1;
+}
+
+.login-container a {
+  color: #1e90ff;
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.login-container a:hover {
+  color: #00bfff;
+  text-decoration: underline;
+}
+</style>
+
+<div class="login-wrapper">
+  <div class="login-container">
+    <h2>Login</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <p class="error-message">{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="username" placeholder="Enter your username" required>
+        <input type="password" name="password" placeholder="Enter your password" required>
+        <button type="submit">Login</button>
+    </form>
+    <div>
+    <p>Don’t have an account? <a href="{% url 'signup' %}">Signup</a></p>
+    </div>
+    
+  </div>
+
+  
+</div>
+
+{% endblock %}
+
+
+{% comment %} 
+{% extends 'base.html' %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<h2>Login</h2>
+
+{% if messages %}
+    {% for message in messages %}
+        <p style="color:red;">{{ message }}</p>
+    {% endfor %}
+{% endif %}
+
+<form method="post">
+    {% csrf_token %}
+    <input type="text" name="username" placeholder="Username" required>
+    <input type="password" name="password" placeholder="Password" required>
+    <button type="submit">Login</button>
+</form>
+
+<p>Don't have an account? <a href="{% url 'signup' %}">Signup</a></p>
+{% endblock %} {% endcomment %}

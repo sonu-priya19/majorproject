@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+/* ===== Theme Variables ===== */
+:root {
+  --bg: #ffffff;
+  --text: #222;
+  --card-bg: #f9f9f9;
+  --accent: #4CAF50;
+  --danger: #e63946;
+  --secondary: #555;
+}
+
+[data-theme="dark"] {
+  --bg: #121212;
+  --text: #f1f1f1;
+  --card-bg: #1e1e1e;
+  --accent: #4CAF50;
+  --danger: #ff4c4c;
+  --secondary: #aaa;
+}
+
+/* ===== History Section ===== */
+.history {
+  max-width: 900px;
+  margin: 30px auto;
+  background: var(--card-bg);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.history h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--accent);
+}
+
+/* Table Styling */
+#scan-history table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--card-bg);
+  color: var(--text);
+}
+
+#scan-history th, #scan-history td {
+  border: 1px solid rgba(0,0,0,0.1);
+  padding: 10px;
+  text-align: center;
+}
+
+#scan-history th {
+  background: var(--accent);
+  color: #fff;
+}
+
+#scan-history tr:nth-child(even) {
+  background: rgba(0,0,0,0.05);
+}
+
+[data-theme="dark"] #scan-history tr:nth-child(even) {
+  background: rgba(255,255,255,0.05);
+}
+
+/* Badges */
+.badge {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-weight: bold;
+}
+
+.bad {
+  background: var(--danger);
+  color: #fff;
+}
+
+.good {
+  background: var(--accent);
+  color: #fff;
+}
+</style>
+
+
+<section class="history">
+  <h2>Recent Scans</h2>
+  <div id="scan-history"></div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener("DOMContentLoaded", loadHistory);
+
+async function loadHistory() {
+  try {
+    const res = await fetch("/api/history");
+    const data = await res.json();
+
+    let html = "<table class='table table-striped'><thead><tr><th>Time</th><th>URL</th><th>Status</th><th>Confidence</th></tr></thead><tbody>";
+
+    if (data.history.length === 0) {
+      html += "<tr><td colspan='4'>No scans yet.</td></tr>";
+    } else {
+      data.history.forEach(row => {
+        html += `<tr>
+          <td>${row.scanned_at}</td>
+          <td>${row.url}</td>
+          <td>${row.result === "Phishing"
+            ? "<span class='badge bad'>Phishing</span>"
+            : "<span class='badge good'>Safe</span>"}
+          </td>
+          <td>${(row.probability * 100).toFixed(1)}%</td>
+        </tr>`;
+      });
+    }
+
+    html += "</tbody></table>";
+    document.getElementById("scan-history").innerHTML = html;
+  } catch (e) {
+    document.getElementById("scan-history").innerHTML = "Error loading history.";
+  }
+}
+</script>
+{% endblock %}
+{% comment %} {% extends 'base.html' %}
+{% block content %}
+<section class="history">
+  <h2>Recent Scans</h2>
+  <table>
+    <thead><tr><th>Time</th><th>URL</th><th>Status</th><th>Confidence</th></tr></thead>
+    <tbody>
+      {% for row in logs %}
+      <tr>
+        <td>{{ row.created_at }}</td>
+        <td>{{ row.url }}</td>
+        <td>
+          {% if row.is_phishing %}<span class="badge bad">Phishing</span>{% else %}
+          <span class="badge good">Safe</span>{% endif %}
+        </td>
+        <td>{{ row.confidence|floatformat:2 }}</td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="4">No scans yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %} {% endcomment %}

@@ -1,0 +1,397 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}PhishTitan{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* ============ Base Theme ============ */
+        :root {
+          --bg: #ffffff;
+          --text: #222;
+          --card-bg: #f9f9f9;
+          --table-border: #ddd;
+          --accent: #4CAF50;
+          --danger: #e63946;
+          --secondary: #555;
+        }
+
+        body.dark {
+          --bg: #121212;
+          --text: #f1f1f1;
+          --card-bg: #1e1e1e;
+          --table-border: #333;
+          --accent: #4CAF50;
+          --danger: #ff4c4c;
+          --secondary: #aaa;
+        }
+
+        /* ============ Global ============ */
+        body {
+          background: var(--bg);
+          color: var(--text);
+          font-family: Arial, sans-serif;
+          margin: 0;
+        }
+
+        /* Sidebar */
+        .sidebar {
+          background: var(--card-bg);
+          color: var(--text);
+          width: 220px;
+          position: fixed;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          padding: 20px;
+          overflow-y: auto;
+        }
+
+        .sidebar-header {
+          text-align: center;
+          margin-bottom: 20px;
+        }
+        .sidebar-header .logo {
+          width: 60px;
+          margin-bottom: 10px;
+        }
+
+        .sidebar-menu {
+          list-style: none;
+          padding: 0;
+        }
+        .sidebar-menu li {
+          margin: 10px 0;
+        }
+        .sidebar-menu a {
+          text-decoration: none;
+          color: var(--text);
+          font-weight: 500;
+        }
+        .sidebar-menu a:hover {
+          color: var(--accent);
+        }
+
+        .sidebar-footer {
+          margin-top: 30px;
+          text-align: center;
+        }
+
+        /* Navbar */
+        .navbar {
+            width: 100%;
+            background: #fff;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            padding: 20px 0;
+            text-align: center;
+            margin-left: 220px; /* align after sidebar */
+        }
+        .navbar h2 {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #4CAF50;
+            margin-bottom: 15px;
+        }
+        .navbar .highlight {
+            color: #4CAF50;
+        }
+        .navbar-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .navbar-buttons a {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .chat-btn {
+            background: #4CAF50;
+            color: white;
+        }
+        .chat-btn:hover {
+            background: #45a049;
+            transform: scale(1.05);
+        }
+        .history-btn {
+            background: #444;
+            color: white;
+        }
+        .history-btn:hover {
+            background: #222;
+            transform: scale(1.05);
+        }
+
+        /* Main Content */
+        .main-content {
+          margin-left: 220px; /* width of sidebar */
+          margin-top: 55px;   /* space for navbar */
+          padding: 20px;
+        }
+
+        /* Buttons */
+        .btn, button {
+          background: var(--accent);
+          color: #fff;
+          border: none;
+          border-radius: 6px;
+          padding: 8px 14px;
+          cursor: pointer;
+        }
+        .btn:hover, button:hover {
+          opacity: 0.9;
+        }
+
+        /* Table Styling */
+        table {
+          width: 100%;
+          border-collapse: collapse;
+        }
+        table th, table td {
+          padding: 10px;
+          border: 1px solid var(--table-border);
+          text-align: left;
+        }
+        table th {
+          background: var(--card-bg);
+          color: var(--text);
+        }
+        table tr:nth-child(even) {
+          background: rgba(0,0,0,0.05);
+        }
+        body.dark table tr:nth-child(even) {
+          background: rgba(255,255,255,0.05);
+        }
+
+        /* Scan Result Cards */
+        .scan-card {
+          background: var(--card-bg);
+          color: var(--text);
+          border-radius: 12px;
+          padding: 20px;
+          box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+          margin-top: 20px;
+        }
+        .scan-card.safe {
+          border-left: 6px solid var(--accent);
+        }
+        .scan-card.phishing {
+          border-left: 6px solid var(--danger);
+        }
+    </style>
+</head>
+<body class="{% if request.session.theme == 'dark' %}dark{% endif %}">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <img src="{% static 'images/logo.png' %}" alt="PhishTitan Logo" class="logo">
+            <h2>Phish<span style="color:#e53935;">TITAN</span></h2>
+        </div>
+        <ul class="sidebar-menu">
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'home' %}"><span>🏠</span> Home Page</a></li>
+                <li><a href="{% url 'profile' %}"><span>👤</span> User Profile</a></li>
+                <li><a href="{% url 'dashboard' %}"><span>📊</span> Dashboard</a></li>
+                <li><a href="{% url 'publish_feedback' %}"><span>📝</span> Publish Feedback</a></li>
+                <li><a href="{% url 'feedback' %}"><span>💬</span> Users Feedback</a></li>
+                <li><a href="{% url 'contact' %}"><span>📞</span> Contact Us</a></li>
+                <li><a href="{% url 'logout' %}" class="logout-btn"><span>🚪</span> Logout</a></li>
+            {% else %}
+                <li><a href="{% url 'login' %}"><span>🔑</span> Login</a></li>
+                <li><a href="{% url 'signup' %}"><span>📝</span> Signup</a></li>
+            {% endif %}
+        </ul>
+        <div class="sidebar-footer">
+            <button class="theme-toggle" title="Toggle Theme">🌓</button>
+            <span class="mode-label">{% if request.session.theme == 'dark' %}Dark Mode{% else %}Light Mode{% endif %}</span>
+        </div>
+    </nav>
+
+    <!-- Custom Navbar (only after login) -->
+    {% if user.is_authenticated %}
+    <div class="navbar">
+        <h2>
+            Hello {{ user.username }}, Welcome to 
+            <span class="highlight">PhishTitan!</span>
+        </h2>
+        <div class="navbar-buttons">
+            <a href="{% url 'chatbot_help' %}" class="chat-btn">💬 Chatbot Help</a>
+            <a href="{% url 'history' %}" class="history-btn">📜 View Scan History</a>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Main Content -->
+    <main class="main-content">
+        {% if not user.is_authenticated %}
+            <div class="alert alert-warning">
+                <strong>Please login to continue.</strong>
+                <p>Go to <a href="{% url 'login' %}">Login</a></p>
+            </div>
+        {% endif %}
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Chatbot -->
+    <button class="chatbot-btn" title="Chatbot">💬</button>
+    <div class="chatbot-window" style="display:none;">
+        <iframe src="https://example-chatbot-url.com" width="100%" height="100%" frameborder="0"></iframe>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{% static 'js/theme-toggle.js' %}"></script>
+    <script src="{% static 'js/chatbot.js' %}"></script>
+</body>
+</html>
+
+{% comment %} 
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}PhishTitan{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* ============ Base Theme ============ */
+:root {
+  --bg: #ffffff;
+  --text: #222;
+  --card-bg: #f9f9f9;
+  --table-border: #ddd;
+  --accent: #4CAF50;
+  --danger: #e63946;
+  --secondary: #555;
+}
+
+body.dark {
+  --bg: #121212;
+  --text: #f1f1f1;
+  --card-bg: #1e1e1e;
+  --table-border: #333;
+  --accent: #4CAF50;
+  --danger: #ff4c4c;
+  --secondary: #aaa;
+}
+
+/* ============ Global ============ */
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, sans-serif;
+  margin: 0;
+}
+
+/* Sidebar */
+.sidebar {
+  background: var(--card-bg);
+  color: var(--text);
+}
+
+/* Buttons */
+.btn, button {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 14px;
+  cursor: pointer;
+}
+.btn:hover, button:hover {
+  opacity: 0.9;
+}
+
+/* Table Styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+table th, table td {
+  padding: 10px;
+  border: 1px solid var(--table-border);
+  text-align: left;
+}
+table th {
+  background: var(--card-bg);
+  color: var(--text);
+}
+table tr:nth-child(even) {
+  background: rgba(0,0,0,0.05);
+}
+body.dark table tr:nth-child(even) {
+  background: rgba(255,255,255,0.05);
+}
+
+/* Scan Result Cards */
+.scan-card {
+  background: var(--card-bg);
+  color: var(--text);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  margin-top: 20px;
+}
+.scan-card.safe {
+  border-left: 6px solid var(--accent);
+}
+.scan-card.phishing {
+  border-left: 6px solid var(--danger);
+}
+</style>
+        
+</head>
+<body class="{% if request.session.theme == 'dark' %}dark{% endif %}">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <img src="{% static 'images/logo.png' %}" alt="PhishTitan Logo" class="logo">
+            <h2>Phish<span style="color:#e53935;">TITAN</span></h2>
+        </div>
+        <ul class="sidebar-menu">
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'home' %}"><span>🏠</span> Home Page</a></li>
+                <li><a href="{% url 'profile' %}"><span>👤</span> User Profile</a></li>
+                <li><a href="{% url 'dashboard' %}"><span>📊</span> Dashboard</a></li>
+                <li><a href="{% url 'publish_feedback' %}"><span>📝</span> Publish Feedback</a></li>
+                <li><a href="{% url 'feedback' %}"><span>💬</span> Users Feedback</a></li>
+                <li><a href="{% url 'contact' %}"><span>📞</span> Contact Us</a></li>
+                <li><a href="{% url 'logout' %}" class="logout-btn"><span>🚪</span> Logout</a></li>
+            {% else %}
+                <li><a href="{% url 'login' %}"><span>🔑</span> Login</a></li>
+                <li><a href="{% url 'signup' %}"><span>📝</span> Signup</a></li>
+            {% endif %}
+        </ul>
+        <div class="sidebar-footer">
+            <button class="theme-toggle" title="Toggle Theme">🌓</button>
+            <span class="mode-label">{% if request.session.theme == 'dark' %}Dark Mode{% else %}Light Mode{% endif %}</span>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        {% if not user.is_authenticated %}
+            <div class="alert alert-warning">
+                <strong>Please login to continue.</strong>
+                <p>Go to <a href="{% url 'login' %}">Login</a></p>
+            </div>
+        {% endif %}
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Chatbot -->
+    <button class="chatbot-btn" title="Chatbot">💬</button>
+    <div class="chatbot-window" style="display:none;">
+        <iframe src="https://example-chatbot-url.com" width="100%" height="100%" frameborder="0"></iframe>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{% static 'js/theme-toggle.js' %}"></script>
+    <script src="{% static 'js/chatbot.js' %}"></script>
+
+</body>
+</html> {% endcomment %}

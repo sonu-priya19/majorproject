@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+{% block title %}Contact Us{% endblock %}
+{% block content %}
+
+<style>
+.contact-container {
+  padding: 50px 20px;
+  text-align: center;
+  animation: fadeIn 0.7s ease-in-out;
+}
+
+.contact-container h2 {
+  font-size: 2.5rem;
+  margin-bottom: 40px;
+  color: #ff6b81;
+  text-shadow: 0 0 12px rgba(255, 107, 129, 0.8);
+}
+
+.contact-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+  justify-content: center;
+}
+
+.contact-card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px);
+  border-radius: 16px;
+  padding: 25px;
+  text-align: left;
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.contact-card:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 12px 30px rgba(255, 107, 129, 0.6);
+}
+
+.contact-icon {
+  font-size: 2.2rem;
+  color: #ff6b81;
+  text-shadow: 0 0 8px rgba(255, 107, 129, 0.9);
+  flex-shrink: 0;
+}
+
+.contact-card strong {
+  font-size: 1.2rem;
+  display: block;
+  margin-bottom: 5px;
+  color: #f5f5f5;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Dark mode tweak */
+body.dark .contact-card {
+  background: rgba(0, 0, 0, 0.4);
+  color: #ddd;
+}
+</style>
+
+<div class="contact-container">
+    <h2>Contact Us</h2>
+    <div class="contact-cards">
+        <div class="contact-card">
+            <span class="contact-icon">🏢</span>
+            <div>
+                <strong>Company Name</strong>
+                PhishTitan
+            </div>
+        </div>
+        <div class="contact-card">
+            <span class="contact-icon">✉️</span>
+            <div>
+                <strong>Email</strong>
+                support@phishtitan.com
+            </div>
+        </div>
+        <div class="contact-card">
+            <span class="contact-icon">📞</span>
+            <div>
+                <strong>Phone</strong>
+                +91-12345-67890
+            </div>
+        </div>
+        <div class="contact-card">
+            <span class="contact-icon">👤</span>
+            <div>
+                <strong>Contact Person</strong>
+                Sonu Priya
+            </div>
+        </div>
+        <div class="contact-card">
+            <span class="contact-icon">🔥</span>
+            <div>
+                <strong>Support</strong>
+                24x7 Available
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% comment %} {% extends 'base.html' %}
+{% block title %}Contact Us{% endblock %}
+{% block content %}
+<div class="contact-container">
+    <h2>Contact Us</h2>
+    <div class="contact-cards">
+        <div class="contact-card">
+            <span class="contact-icon">🏢</span>
+            <div>
+                <strong>Company Name</strong><br>
+                phishtitan***
+            </div>
+        </div>
+        <div class="contact-card">
+            <span class="contact-icon">✉️</span>
+            <div>
+                <strong>Email</strong><br>
+                support@phishtitan.com
+            </div>
+        </div>
+        <div class="contact-card">
+            <span class="contact-icon">📞</span>
+            <div>
+                <strong>Phone</strong><br>
+                +91-12345-67890
+            </div>
+        </div>
+        <div class="contact-card">
+            <span class="contact-icon">👤</span>
+            <div>
+                <strong>Contact Person</strong><br>
+                Sonu Priya
+            </div>
+        </div>
+        <div class="contact-card">
+            <span class="contact-icon">🔥</span>
+            <div>
+                <strong>Support</strong><br>
+                24x7 Available
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} {% endcomment %}

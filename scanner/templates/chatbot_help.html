@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+/* Hero Section */
+.hero {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 30px;
+  border-radius: 12px;
+  background: var(--card-bg);
+  color: var(--text);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  animation: fadeInUp 0.8s ease-in-out;
+  transition: background 0.3s, color 0.3s;
+}
+
+.hero h1 {
+  font-size: 2.2rem;
+  color: var(--accent);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.hero p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.hero ul {
+  margin: 20px 0;
+  padding-left: 20px;
+}
+
+.hero ul li {
+  margin-bottom: 10px;
+  padding-left: 10px;
+  position: relative;
+  font-size: 1.05rem;
+}
+
+.hero ul li::before {
+  content: "✔";
+  color: var(--accent);
+  position: absolute;
+  left: -20px;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>
+
+
+<section class="hero">
+  <h1>How it works</h1>
+  <p>This tool uses a <b>Random Forest model</b> trained on URL features (length, dots, https, keywords, IP, TLD, etc.). It does not visit the page.</p>
+  <ul>
+    <li>Paste a URL on the Scan page.</li>
+    <li>We extract features and run the model.</li>
+    <li>We show <b>SAFE/PHISHING</b> and a confidence score.</li>
+  </ul>
+  <p>💡 Use the chatbot (bottom-right) to ask questions about results and safety tips.</p>
+</section>
+{% endblock %}
+{% comment %} {% extends 'base.html' %}
+{% block content %}
+<section class="hero">
+  <h1>How it works</h1>
+  <p>This tool uses a Random Forest model trained on URL features (length, dots, https, keywords, IP, TLD, etc.). It does not visit the page.</p>
+  <ul>
+    <li>Paste a URL on the Scan page.</li>
+    <li>We extract features and run the model.</li>
+    <li>We show SAFE/PHISHING and a confidence score.</li>
+  </ul>
+  <p>Use the chatbot (bottom-right) to ask questions about results and safety tips.</p>
+</section>
+{% endblock %} {% endcomment %}

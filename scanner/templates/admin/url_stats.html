@@ -1,0 +1,31 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+<h1>URL Categorization</h1>
+
+<h2>✅ Safe URLs</h2>
+<table border="1" cellpadding="5">
+    <tr><th>URL</th><th>User Count</th></tr>
+    {% for url in safe_urls %}
+    <tr>
+        <td>{{ url.url }}</td>
+        <td>{{ url.user_count }}</td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="2">No safe URLs yet.</td></tr>
+    {% endfor %}
+</table>
+
+<h2>❌ Phishing URLs</h2>
+<table border="1" cellpadding="5">
+    <tr><th>URL</th><th>User Count</th></tr>
+    {% for url in phishing_urls %}
+    <tr>
+        <td>{{ url.url }}</td>
+        <td>{{ url.user_count }}</td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="2">No phishing URLs yet.</td></tr>
+    {% endfor %}
+</table>
+{% endblock %}

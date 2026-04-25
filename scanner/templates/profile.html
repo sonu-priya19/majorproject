@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+<style>
+.profile-container {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 20px;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+.profile-container h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 25px;
+  color: #ffd369;
+  text-shadow: 0 0 10px rgba(255, 211, 105, 0.8);
+}
+
+.profile-card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 18px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+  padding: 25px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 24px rgba(255,107,129,0.6);
+}
+
+.profile-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1.05rem;
+}
+
+.profile-table tr {
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.profile-table td {
+  padding: 12px;
+  color: #fff;
+}
+
+.profile-table td:first-child {
+  font-weight: bold;
+  color: #ffd369;
+}
+
+.profile-table td:nth-child(2) {
+  width: 20px;
+  text-align: center;
+  color: #aaa;
+}
+
+.profile-table tr:last-child {
+  border-bottom: none;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Dark mode */
+body.dark .profile-card {
+  background: rgba(0,0,0,0.6);
+}
+</style>
+
+<div class="profile-container">
+    <h2>User Profile @{{ user.username }}</h2>
+    <div class="profile-card">
+        <table class="profile-table">
+            <tr>
+                <td>Name</td>
+                <td>:</td>
+                <td>{{ user.get_full_name|default:user.username }}</td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td>:</td>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <td>Age</td>
+                <td>:</td>
+                <td>{{ user.profile.age|default:"-" }}</td>
+            </tr>
+            <tr>
+                <td>Username</td>
+                <td>:</td>
+                <td>{{ user.username }}</td>
+            </tr>
+            <tr>
+                <td>Total URLs Entered</td>
+                <td>:</td>
+                <td>{{ total_urls|default:"0" }}</td>
+            </tr>
+            <tr>
+                <td>Total Phishing URLs</td>
+                <td>:</td>
+                <td>{{ phishing_urls|default:"0" }}</td>
+            </tr>
+            <tr>
+                <td>Total Legitimate URLs</td>
+                <td>:</td>
+                <td>{{ legit_urls|default:"0" }}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+{% endblock %}
+{% comment %} 
+{% extends 'base.html' %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+<div class="profile-container">
+    <h2>User Profile @{{ user.username }}</h2>
+    <div class="profile-card">
+        <table class="profile-table">
+            <tr>
+                <td><strong>Name</strong></td>
+                <td>:</td>
+                <td>{{ user.get_full_name|default:user.username }}</td>
+            </tr>
+            <tr>
+                <td><strong>Email</strong></td>
+                <td>:</td>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <td><strong>Age</strong></td>
+                <td>:</td>
+                <td>{{ user.profile.age|default:"-" }}</td>
+            </tr>
+            <tr>
+                <td><strong>Username</strong></td>
+                <td>:</td>
+                <td>{{ user.username }}</td>
+            </tr>
+            <tr>
+                <td><strong>Total URLs Entered</strong></td>
+                <td>:</td>
+                <td>{{ total_urls|default:"0" }}</td>
+            </tr>
+            <tr>
+                <td><strong>Total Phishing URLs</strong></td>
+                <td>:</td>
+                <td>{{ phishing_urls|default:"0" }}</td>
+            </tr>
+            <tr>
+                <td><strong>Total Legitimate URLs</strong></td>
+                <td>:</td>
+                <td>{{ legit_urls|default:"0" }}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+{% endblock %} {% endcomment %}
